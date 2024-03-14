@@ -21,10 +21,35 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.tcarlisle.DoughCalculator"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "versionCode": 6,
+            "minSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "d13cdc2a-8dc3-4860-90fe-aa20c013d196"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d13cdc2a-8dc3-4860-90fe-aa20c013d196"
     }
   }
 }
