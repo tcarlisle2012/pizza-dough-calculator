@@ -2,13 +2,13 @@
   "expo": {
     "name": "DoughCalculator",
     "slug": "DoughCalculator",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/dough-calculator-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/pizza-dough.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -18,8 +18,9 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/dough-calculator-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.tcarlisle.DoughCalculator"
@@ -32,10 +33,9 @@
         "expo-build-properties",
         {
           "android": {
-            "versionCode": 6,
-            "minSdkVersion": 33,
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33
+            "minSdkVersion": 34,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34
           }
         }
       ]

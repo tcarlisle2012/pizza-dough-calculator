@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { StyleSheet, Text, View, ImageBackground, TextInput, Button } from 'react-native';
 
@@ -13,18 +13,32 @@ export default function App() {
 
   const hydration = .67
   const calculateWater = hydration * flour * numberBalls
-  const calculateFlour = flour * numberBalls
-  const calculateYeast = yeastPercentage * .01 * calculateFlour
-  const calculateSalt = saltPercentage * .01 * calculateFlour
-  const calculateOil = oilPercentage * .01 * calculateFlour
-  const calculateTotalWeight = (calculateFlour + calculateWater + calculateYeast + calculateSalt + calculateOil) / numberBalls
+  function calculateFlour(): number {
+    if (this.diameter == 14)
+        return 0
+    else return (flour * numberBalls).toFixed(2)
+  }
+  const calculateYeast = yeastPercentage * .01 * calculateFlour()
+  const calculateSalt = saltPercentage * .01 * calculateFlour()
+  const calculateOil = oilPercentage * .01 * calculateFlour()
+  const calculateTotalWeight = (calculateFlour() + calculateWater + calculateYeast + calculateSalt + calculateOil) / numberBalls
 
+  const pickerRef = useRef();
+
+  function open() {
+   pickerRef.current.focus();
+  }
+
+  function close() {
+    pickerRef.current.blur();
+  }
   return (
     <View style={styles.container}>
       <ImageBackground source={require('./assets/pizza-dough.png')}  resizeMode='cover'
         style={styles.image}>
         <Text style={styles.title}>Pizza Dough Calculator</Text>
         <View style={styles.resultView}>
+            <Text style={styles.label}>Desired Number of Dough Balls:</Text>
             <Picker style={styles.picker}
               selectedValue={numberBalls}
               onValueChange={numberBalls => setNumberBalls(numberBalls)}>
@@ -38,36 +52,38 @@ export default function App() {
               <Picker.Item label='Medium' value='14' />
               <Picker.Item label='Large' value='16' />
             </Picker>
-            <Text style={styles.label}>Yeast:</Text>
+            <Text style={styles.label}>Yeast Percentage:</Text>
             <Picker style={styles.picker}
               selectedValue={yeastPercentage}
               onValueChange={yeastPercentage => setYeastPercentage(yeastPercentage)}>
               <Picker.Item label='1%' value='1' />
               <Picker.Item label='2%' value='2' />
             </Picker>
-            <Text style={styles.label}>Salt:</Text>
+            <Text style={styles.label}>Salt Percentage:</Text>
             <Picker style={styles.picker}
               selectedValue={saltPercentage}
               onValueChange={saltPercentage => setSaltPercentage(saltPercentage)}>
               <Picker.Item label='1%' value='1' />
               <Picker.Item label='2%' value='2' />
             </Picker>
-             <Text style={styles.label}>EEVO:</Text>
+             <Text style={styles.label}>EEVO Percentage:</Text>
             <Picker style={styles.picker}
               selectedValue={oilPercentage}
               onValueChange={oilPercentage => setOilPercentage(oilPercentage)}>
               <Picker.Item label='1%' value='1' />
               <Picker.Item label='2%' value='2' />
             </Picker>
-            <Text style={styles.summary}>
-                Makes {numberBalls} Dough Balls{"\n"}
-                Flour: {calculateFlour.toFixed(2)} g{"\n"}
-                Water: {calculateWater.toFixed(2)} g{"\n"}
-                IDY: {calculateYeast.toFixed(2)} g {"\n"}
-                Salt: {calculateSalt.toFixed(2)} g {"\n"}
-                EEVO: {calculateOil.toFixed(2)} g {"\n"}
-                Ball Wt: {calculateTotalWeight.toFixed(2)} g {"\n"}
-            </Text>
+            <View style={styles.recipe}>
+                <Text style={styles.summary}>
+                    Makes {"\t\t"}{numberBalls} Dough Balls{"\n"}
+                    Flour: {"\t\t\t"}{calculateFlour()} g{"\n"}
+                    Water: {"\t\t"}{calculateWater.toFixed(2)} g{"\n"}
+                    IDY: {"\t\t\t\t\t"}{calculateYeast.toFixed(2)} g {"\n"}
+                    Salt: {"\t\t\t\t"}{calculateSalt.toFixed(2)} g {"\n"}
+                    EEVO: {"\t\t\t"}{calculateOil.toFixed(2)} g {"\n"}
+                    Ball Wt: {"\t"}{calculateTotalWeight.toFixed(2)} g {"\n"}
+                </Text>
+            </View>
         </View>
       </ImageBackground>
     </View>
@@ -88,7 +104,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: '50%',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     color: 'white'
   },
   label: {
@@ -104,10 +120,14 @@ const styles = StyleSheet.create({
     fontSize: 28
   },
   resultView: {
+    paddingTop: '200',
     width: '75%',
     height: 'auto',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.35)'
+  },
+  recipe: {
+    alignItems: 'center'
   },
   textInput1: { height: 40, width: '50%', borderColor: 'gray', borderWidth: 1}
 });
